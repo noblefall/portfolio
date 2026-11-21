@@ -46,7 +46,7 @@ h3{font-size:1.1rem;font-weight:600;letter-spacing:-.01em}
 .label::before{content:"";width:26px;height:2px;background:var(--accent);border-radius:2px}
 
 /* hero */
-.hero{padding:clamp(3rem,8vw,6.5rem) 0;background:
+.hero{position:relative;display:flex;align-items:center;min-height:calc(100vh - 68px);min-height:calc(100svh - 68px);padding:clamp(3rem,8vw,6.5rem) 0 clamp(5rem,9vw,6.5rem);background:
   radial-gradient(60% 80% at 85% 10%,var(--accent-t),transparent 60%),
   radial-gradient(50% 70% at 0% 100%,var(--green-t),transparent 55%)}
 .hero-in{display:grid;grid-template-columns:1.25fr .75fr;gap:clamp(2rem,6vw,5rem);align-items:center}
@@ -124,6 +124,20 @@ footer{padding:1.5rem 0;font-size:.85rem;color:var(--ink2);background:var(--bg2)
 .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
 .reveal.in{opacity:1;transform:none}
 
+
+/* scroll progress */
+.progress{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--green),var(--accent));z-index:60;border-radius:0 3px 3px 0}
+
+/* back to top */
+.totop{position:fixed;right:1rem;bottom:1rem;z-index:55;width:46px;height:46px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--green-d);font-size:1.25rem;line-height:1;cursor:pointer;box-shadow:var(--sh-md);opacity:0;transform:translateY(12px);pointer-events:none;transition:opacity .25s,transform .25s,background .2s,color .2s}
+.totop.show{opacity:1;transform:none;pointer-events:auto}
+.totop:hover{background:var(--green-d);color:#fff;border-color:var(--green-d)}
+
+/* animated underline for contact links */
+.links a{text-decoration:none;background-image:linear-gradient(currentColor,currentColor);background-size:0% 2px;background-repeat:no-repeat;background-position:0 100%;transition:background-size .3s,color .2s;padding-bottom:2px}
+.links a:hover{background-size:100% 2px}
+.contact .links a:hover{color:#F0B89C}
+
 /* responsive */
 @media (max-width:860px){
   .hero-in{grid-template-columns:1fr}
@@ -176,3 +190,38 @@ footer{padding:1.5rem 0;font-size:.85rem;color:var(--ink2);background:var(--bg2)
 @media (max-width:860px){.project{grid-template-columns:1fr;padding:1.2rem}}
 
 .gallery.sq img{aspect-ratio:1/1}
+
+/* mobile polish */
+@media (max-width:860px){
+  .sec{padding:clamp(2.75rem,9vw,4rem) 0}
+  .sec p,.intro,.lead,.card p,.case dd,.proj-dl dd,.job li,.tools{text-align:justify;hyphens:auto}
+  .portrait{max-width:230px;margin-inline:auto}
+  .hero{padding:2rem 0 5rem}
+  .facts-in div{padding:1.25rem .25rem;gap:.7rem}
+  .facts strong{font-size:1.8rem}
+  .job-head{flex-direction:column;gap:.35rem}
+  .when{align-self:flex-start;margin-top:.15rem}
+  .card,.project{padding:1.25rem}
+  .job{padding:1.6rem 0}
+  .skills{gap:1.75rem;margin-top:2.75rem;padding-top:2rem}
+  .tags li{font-size:.85rem;padding:.35rem .8rem}
+  .links a{display:inline;padding-bottom:3px}
+}
+@media (max-width:480px){
+  .btns{flex-direction:column}
+  .btns .btn{width:100%}
+  h1{font-size:2.15rem}
+  .headline{font-size:1rem}
+  .gallery{gap:.6rem}
+  .totop{right:.85rem;bottom:.85rem}
+}
+
+/* welcome + scroll cue */
+.welcome{display:inline-flex;align-items:center;gap:.55rem;margin:0 0 1.2rem;padding:.4rem .95rem;background:var(--card);border:1px solid var(--line);border-radius:999px;font-size:.82rem;font-weight:600;color:var(--green-d);box-shadow:var(--sh-sm)}
+.welcome i{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--accent-t)}
+.scroll-cue{position:absolute;left:50%;bottom:1.4rem;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;text-decoration:none;color:var(--ink2);font-size:.72rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;transition:opacity .3s,color .2s}
+.scroll-cue:hover{color:var(--green-d)}
+.scroll-cue i{width:22px;height:34px;border:2px solid currentColor;border-radius:12px;position:relative}
+.scroll-cue i::after{content:"";position:absolute;left:50%;top:6px;width:3px;height:7px;margin-left:-1.5px;border-radius:2px;background:var(--accent);animation:cue 1.8s ease-in-out infinite}
+@keyframes cue{0%{opacity:0;transform:translateY(0)}30%{opacity:1}100%{opacity:0;transform:translateY(12px)}}
+.scroll-cue.hide{opacity:0;pointer-events:none}

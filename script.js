@@ -75,4 +75,58 @@
     lb.addEventListener('click', function (e) { if (e.target === lb) lb.close(); });
     lb.addEventListener('close', function () { lbImg.removeAttribute('src'); if (last) last.focus(); });
   }
+
+  // Scroll progress bar
+  var progress = document.getElementById('progress');
+  var ticking = false;
+  function updateProgress() {
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    progress.style.width = (max > 0 ? (window.scrollY / max) * 100 : 0) + '%';
+    ticking = false;
+  }
+  window.addEventListener('scroll', function () {
+    if (!ticking) { ticking = true; requestAnimationFrame(updateProgress); }
+  }, { passive: true });
+  updateProgress();
+
+  // Back-to-top button
+  var toTop = document.getElementById('totop');
+  window.addEventListener('scroll', function () {
+    toTop.classList.toggle('show', window.scrollY > 500);
+  }, { passive: true });
+  toTop.addEventListener('click', function () {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // Hide the hero scroll cue once the visitor scrolls
+  var cue = document.querySelector('.scroll-cue');
+  if (cue) window.addEventListener('scroll', function () {
+    cue.classList.toggle('hide', window.scrollY > 80);
+  }, { passive: true });
+
+  // Count-up animation for highlight numbers
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('.facts strong').forEach(function (el) {
+      var target = parseFloat(el.textContent);
+      if (isNaN(target)) return;
+      var decimals = (el.textContent.split('.')[1] || '').length;
+      el.textContent = (0).toFixed(decimals);
+      var co = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (!en.isIntersecting) return;
+          co.unobserve(el);
+          var start = null, dur = 1200;
+          function step(ts) {
+            if (!start) start = ts;
+            var p = Math.min((ts - start) / dur, 1);
+            var eased = 1 - Math.pow(1 - p, 3);
+            el.textContent = (target * eased).toFixed(decimals);
+            if (p < 1) requestAnimationFrame(step);
+          }
+          requestAnimationFrame(step);
+        });
+      }, { threshold: 0.4 });
+      co.observe(el);
+    });
+  }
 })();
