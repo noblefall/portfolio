@@ -36,6 +36,26 @@
       var s = document.getElementById(id);
       if (s) io.observe(s);
     });
+
+    // Subtle reveal-on-scroll for content blocks
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      var blocks = document.querySelectorAll('.job, .card, .project, .facts-in > div, .skills > div, .gallery li');
+      var seen = new WeakSet();
+      var ro = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting && !seen.has(en.target)) {
+            seen.add(en.target);
+            en.target.classList.add('in');
+            ro.unobserve(en.target);
+          }
+        });
+      }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
+      blocks.forEach(function (el, i) {
+        el.classList.add('reveal');
+        el.style.transitionDelay = (i % 4) * 60 + 'ms';
+        ro.observe(el);
+      });
+    }
   }
 
   // Photo lightbox
