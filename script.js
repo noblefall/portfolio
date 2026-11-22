@@ -39,7 +39,7 @@
 
     // Subtle reveal-on-scroll for content blocks
     if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      var blocks = document.querySelectorAll('.job, .card, .project, .facts-in > div, .skills > div, .gallery li');
+      var blocks = document.querySelectorAll('.timeline-item, .job, .card, .project, .facts-in > div, .about-portrait, .gallery li');
       var seen = new WeakSet();
       var ro = new IntersectionObserver(function (entries) {
         entries.forEach(function (en) {
